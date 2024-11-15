@@ -3,6 +3,7 @@ import "../global.css";
 import {SplashScreen, Slot, Stack} from 'expo-router'
 import {useFonts} from 'expo-font'
 import { useEffect } from 'react';
+import GlobalProvider from '../context/GlobalProvider';
 
 SplashScreen.preventAutoHideAsync();
 // Loads in the fonts from assets making them easier to access throughout the application
@@ -29,6 +30,7 @@ const RootLayout = () => {
     if (!fontsLoaded && !error) return null;
 
   return (
+    <GlobalProvider>
   <Stack>
     {/* The index screen is the default screen that will be shown when the app is opened */}
     {/* the method of hiding the header is by setting the headerShown property to false */}
@@ -41,7 +43,7 @@ const RootLayout = () => {
     {/* <Stack.Screen name ="/search/[query]" options={{headerShown:
     false}}/> */}
   </Stack>
-  
+  </GlobalProvider>
   )
 }
 
