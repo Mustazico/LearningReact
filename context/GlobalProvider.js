@@ -15,10 +15,10 @@ const GlobalProvider = ({children}) => {
     useEffect(() => {
         getCurrentUser().then((res) => {
             if(res) {
-                setIsLoggedIn(True);
+                setIsLoggedIn(true);
                 setUser(res);
             } else {
-                setIsLoggedIn(False);
+                setIsLoggedIn(false);
                 setUser(null);
             }
         }) .catch((error) => {
@@ -38,7 +38,7 @@ const GlobalProvider = ({children}) => {
             setIsLoggedIn,
             user,
             setUser,
-            isLoading
+            isLoading,
         }}
         >
 
