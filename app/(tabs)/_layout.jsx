@@ -2,6 +2,7 @@ import { View, Text, Image } from 'react-native'
 import {Tabs, Redirect} from 'expo-router'
 import {icons} from '../../constants'
 
+// The icons in the tabbar, will be passed an icon, color, name, and if it is focused
 const TabIcon = ({icon, color, name, focused}) => {
   return (
     // View is basically a div element
@@ -12,6 +13,7 @@ const TabIcon = ({icon, color, name, focused}) => {
         tintColor={color}
         className="w-6 h-6"
       />
+      {/* If it is focused, then */}
      <Text
         className={`${focused ? 'font-psemibold' : 'font-pregular'} text-xs`}
         style={{ color: color, minWidth: 60, textAlign: 'center'}}
@@ -22,7 +24,7 @@ const TabIcon = ({icon, color, name, focused}) => {
     </View> 
   )
 }
-
+// The entire tab bar itself
 const TabsLayout = () => {
   return (
     <>
@@ -40,6 +42,7 @@ const TabsLayout = () => {
 
         }}
       >
+        {/* Handling each tab */}
         <Tabs.Screen
           name="home"
           options={{

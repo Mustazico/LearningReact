@@ -1,3 +1,4 @@
+// Constants to make it even easier to fetch images in the application
 import profile from "../assets/images/profile.png";
 import thumbnail from "../assets/images/thumbnail.png";
 import cards from "../assets/images/cards.png";

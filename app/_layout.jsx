@@ -5,7 +5,7 @@ import {useFonts} from 'expo-font'
 import { useEffect } from 'react';
 
 SplashScreen.preventAutoHideAsync();
-
+// Loads in the fonts from assets making them easier to access throughout the application
 const RootLayout = () => {
     const [fontsLoaded, error] = useFonts({
       "Poppins-Black": require("../assets/fonts/Poppins-Black.ttf"),
@@ -30,8 +30,16 @@ const RootLayout = () => {
 
   return (
   <Stack>
+    {/* The index screen is the default screen that will be shown when the app is opened */}
+    {/* the method of hiding the header is by setting the headerShown property to false */}
     <Stack.Screen name ="index" options={{headerShown:
     false}}/>
+    <Stack.Screen name ="(auth)" options={{headerShown:
+    false}}/>
+    <Stack.Screen name ="(tabs)" options={{headerShown:
+    false}}/>
+    {/* <Stack.Screen name ="/search/[query]" options={{headerShown:
+    false}}/> */}
   </Stack>
   
   )
