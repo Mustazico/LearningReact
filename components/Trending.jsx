@@ -1,8 +1,9 @@
 import { View, Text, FlatList, TouchableOpacity, ImageBackground, Image } from 'react-native'
 import * as Animatable from 'react-native-animatable'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {icons} from '../constants'
-import { useVideoPlayer, VideoView, VideoContentFit } from 'expo-video';
+import { useVideoPlayer, Video, VideoView} from 'expo-video';
+import { useEvent } from 'expo';
 const zoomIn = {
   0 : {
     scale: 0.9
@@ -21,32 +22,55 @@ const zoomOut = {
   }
 }
 
+
 const TrendingItem = ({activeItem, item }) => {
-  const [play, setPlay] = useState(false);
+  console.log('Video URL:', item.video);  
+  const videoSource = {uri: item.video};
+  // const videoSource = 'https://player.vimeo.com/video/949579770?h=897cd5e781';
+  // const videoSource = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+  // const videoSource =  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+  const player = useVideoPlayer(videoSource, player => {
+    player.loop = true;
+  });
+
+  const { isPlaying } = useEvent(player, 'playingChange', { isPlaying: player.playing });
+
+  const handlePress = async () => {
+    try {
+      console.log('handlePress called');
+      if (isPlaying) {
+        console.log('Pausing video');
+        player.pause();
+      } else {
+        console.log('Playing video');
+        player.play();
+      }
+    } catch (error) {
+      console.error('Error playing/pausing video:', error);
+    }
+  };
+
   return (
     <Animatable.View
       className="mr-5"
       animation={activeItem === item.$id ? zoomIn : zoomOut}
       duration={500}
       >
-        {play ? (
-          <VideoView
+      {isPlaying ? (
+        <VideoView
+          player={player}
           source={{uri: item.video}}
-          className="w-52 h-72 rounded-[35px] mt-3 bg-white/10"
-          // resizeMode={VideoContentFit.contain}
-          VideoContentFit = 'contain'
-          useNativeControls
+          style={{ width: 208, height: 288, borderRadius: 35, marginTop: 12, backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+          allowFullscreen
+          allowPictureInPicture
           shouldPlay
-          onPlaybackStatusUpdate={(status) => {
-            if (status.didJustFinish) {
-              setPlay(false);
-            }
-          }}
-          />
-
-        ) : (
-          <TouchableOpacity className="relative justify-center items-center" activeOpacity={0.7}
-          onPress={() =>setPlay(true)}>
+        />
+      ) : (
+        <TouchableOpacity
+          style={{ position: 'relative', justifyContent: 'center', alignItems: 'center' }}
+          activeOpacity={0.7}
+          onPress={handlePress}
+        >
             <ImageBackground
               source={{uri: item.thumbnail}}
               className="w-52 h-72 rounded-[35px] my-5 overflow-hidden shadow-lg shadow-black/40"
@@ -58,10 +82,10 @@ const TrendingItem = ({activeItem, item }) => {
                 resizeMode='contain'
               />
           </TouchableOpacity>
-        )}
+      )}
     </Animatable.View>
-  )
-}
+  );
+};
 
 const Trending = ({posts}) => {
   const [activeItem, setActiveItem] = useState(posts[1]);
