@@ -60,9 +60,11 @@ const TrendingItem = ({activeItem, item }) => {
         <VideoView
           player={player}
           source={{uri: item.video}}
-          style={{ width: 208, height: 288, borderRadius: 35, marginTop: 12, backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+          style={{ width: 208, height: 257, borderRadius: 35, marginTop: 12, backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+          videoContentFit="contain"
           allowFullscreen
           allowPictureInPicture
+          nativeControls
           shouldPlay
         />
       ) : (
